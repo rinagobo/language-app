@@ -1,0 +1,79 @@
+{% include "header.html" %}
+
+    {# form for adding item and editing item #}
+    {# value={{item_selected.name-of-a-input-tag}} doesn't work properly #}
+
+    <div class="container-fluid" id="add-edit-page">
+      {% if item_selected %}
+        <h3 class="form-instruction">Edit your existing word or phrase.</h3>
+          <form action="{{ url_for('edit', id=item_selected.id)}}" method="post" id="add-edit-form">
+            <div class="form-group">
+                <label>Date</label>
+                <input name="date" class="form-control" type="date" value="{{item_selected.date}}">
+            </div>
+            <div class="form-group">
+                <label>Word or Phrase</label>
+                <input name="word_phrase" class="form-control" type="text" value="{{item_selected.word_phrase}}">
+            </div>
+            <div class="form-group">
+                <label>Meaning</label>
+                <input name="meaning" class="form-control" type="text" value="{{item_selected.meaning}}">
+            </div>
+            <div class="form-group">
+                <label>Example</label>
+                <textarea name="example" class="form-control" rows="3">{{item_selected.example}}</textarea>
+            </div>
+            <div class="form-group">
+                <label>Choose the closest topic category</label>
+                <select class="form-control" name="topic">
+                    <option value="science technology">Science and Technology</option>
+                    <option value="culture entertainment">Culture and Entertainment</option>
+                    <option value="economy business">Economy and Business</option>
+                    <option value="health">Health</option>
+                    <option value="travel lifestyle">Travel and Lifestyle</option>
+                    <option value="language education">Language and Education</option>
+                    <option value="daily conversation">Daily Conversation</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-outline-light">Save</button>
+          </form>
+      {% else %}
+        <h3 class="form-instruction">Add your new word or phrase.</h3>
+          <form action="{{ url_for('add')}}" method="post" id="add-edit-form">
+            <div class="form-group">
+                <label>Date</label>
+                <input name="date" class="form-control" type="date" placeholder="Today's date">
+            </div>
+            <div class="form-group">
+                <label>Word or Phrase</label>
+                <input name="word_phrase" class="form-control" type="text" placeholder="The word or phrase that you came across">
+            </div>
+            <div class="form-group">
+                <label>Meaning</label>
+                <input name="meaning" class="form-control" type="text" placeholder="The meaning of the word or phrase above">
+            </div>
+            <div class="form-group">
+                <label>Example</label>
+                <textarea name="example" class="form-control" rows="3" placeholder="An example using the word or phrase above"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Choose the closest topic category</label>
+                <select class="form-control" name="topic">
+                    <option value="science and technology">Science and Technology</option>
+                    <option value="culture and entertainment">Culture and Entertainment</option>
+                    <option value="economy and business">Economy and Business</option>
+                    <option value="health">Health</option>
+                    <option value="travel and lifestyle">Travel and Lifestyle</option>
+                    <option value="language and education">Language and Education</option>
+                    <option value="daily conversation">Daily Conversation</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-outline-light">Save</button>
+          </form>
+      {% endif %}
+    </div>
+
+
+
+
+{% include "footer.html" %}

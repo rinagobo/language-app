@@ -1,0 +1,16 @@
+{% include "header.html" %}
+
+    <div class="container-fluid option-section">
+      <div class="box add-background">
+        <a href="{{ url_for('add') }}" class="btn btn-outline-light" role="button">Add Your Word or Phrase</a>
+      </div>
+      <div class="box quiz-background">
+        <a href="{{ url_for('quiz_page') }}" class="btn btn-outline-light" role="button">Quiz</a>
+      </div>
+      <div class="box archive-background">
+        <a href="{{ url_for('archive') }}" class="btn btn-outline-light" role="button">Archive</a>
+      </div>
+    </div>
+
+{% include "footer.html" %}
+

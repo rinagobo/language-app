@@ -1,0 +1,20 @@
+{% include "header.html" %}
+
+<div class="container-fluid">
+  <div class="box item-record">
+    <p><span class="list-title"><u>date:</u></span>   {{ item_selected.date }}</p>
+    <p><span class="list-title"><u>word or phrase:</u></span>   {{ item_selected.word_phrase }}</p>
+    <p><span class="list-title"><u>meaning:</u></span>   {{ item_selected.meaning }}</p>
+    <p><span class="list-title"><u>example:</u></span>   {{ item_selected.example }}</p>
+    <p><span class="list-title"><u>topic:</u></span>   {{ item_selected.topic }}</p>
+    {# TO SHOW ADD AND EDIT BUTTONS ONLY WHEN AN USER SEE ITEMS FROM "archive.html" #}
+    {% if direct_route %}
+    <div class="box">
+    <a href="{{ url_for('edit', id=item_selected.id) }}" class="btn btn-outline-dark" role="button">Edit</a>
+    <a href="{{ url_for('delete', id=item_selected.id) }}" class="btn btn-outline-dark" role="button">Delete</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% include "footer.html" %}
