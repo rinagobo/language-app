@@ -2,7 +2,16 @@ from flask import Flask, render_template, redirect, url_for, request, jsonify
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from random import *
+from twilio.rest import Client
 
+# Authentication Info for Twillio SMS API
+account_sid = ""
+auth_token = ""
+client = Client(account_sid, auth_token)
+tw_phone = ""
+your_phone = ""
+
+# Key and URI for your database
 SECRET_KEY = ""
 DATABASE_URI = ""
 
@@ -16,7 +25,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 # Optional: But it will silence the deprecation warning in the console.
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
 
 ### CREATE TABLE ###
 class Vocabulary(db.Model):
@@ -48,6 +56,19 @@ class Vocabulary(db.Model):
 def get_random_vocab():
     vocabs = db.session.query(Vocabulary).all()
     random_vocab = choice(vocabs)
+
+    # Send a message of reviewing your new vocab using twillio
+    word_phrase = random_vocab.to_dict()['word_phrase']
+    meaning = random_vocab.to_dict()['meaning']
+    example = random_vocab.to_dict()['example']
+
+    message = f"Let's review your new vocab!\n<{word_phrase}>\nmeaning:{meaning}\nexample: {example}"
+    message = client.messages.create(
+        body=message,
+        from_=tw_phone,
+        to=your_phone
+    )
+    print(message.status)
 
     return jsonify(vocab=random_vocab.to_dict())
 
