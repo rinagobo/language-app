@@ -149,17 +149,17 @@ hr {
   margin: 30px;
 }
 
-#yes-no-form{
+#yes-no-form, #sound-next-form{
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#yes-form {
+#yes-form, #sound-form {
   float: left;
 }
 
-#no-form {
+#no-form, #next-form {
   float: left;
   clear: right;
 }

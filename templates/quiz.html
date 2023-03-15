@@ -1,26 +1,31 @@
 {% include "header.html" %}
 
     <div class="container-fluid quiz-section">
+
       <h1>Question {{ quiz_count }}</h1>
       <br>
       <button type="button" id="flip-btn">
         Flip Card   <i class="fa-solid fa-arrow-right-arrow-left"></i>
       </button>
       <div class="card quiz-card">
+
         <div id="back" class="cardBack">
           <div class="container-fluid back-content">
             <h6 class="answer-meaning">meaning:   {{item_selected.meaning}}</h6>
             <hr />
             <h6 class="answer-situation">example:   {{item_selected.example}}</h6>
             <hr />
-            <form action="{{ url_for('quiz_page', quiz_count=quiz_count , btn='next' , correct_count=correct_count, wrong_count=wrong_count, wrong_items=wrong_items)}}" method="post">
-                <button class="icon-button" id="sound-btn"><i class="fa-solid fa-volume-high fa-2xl"></i></button>
-                <button class="icon-button" type="submit" id="next-btn"><i class="fa-sharp fa-solid fa-forward fa-2xl"></i></button>
-            </form>
-<!--            <a href="{{ url_for('home') }}" class="icon-button" id="sound-btn" role="button"><i class="fa-solid fa-volume-high fa-2xl"></i></a>-->
-<!--            <a href="{{ url_for('quiz_page') }}" class="icon-button" id="next-btn" role="button"><i class="fa-sharp fa-solid fa-forward fa-2xl"></i></a>-->
+            <div class="box" id="sound-next-form">
+                <form id="next-form" action="{{ url_for('quiz_page', quiz_count=quiz_count , btn='next' , correct_count=correct_count, wrong_count=wrong_count, wrong_items=wrong_items)}}" method="post">
+                    <button class="icon-button" type="submit" id="next-btn"><i class="fa-sharp fa-solid fa-forward fa-2xl"></i></button>
+                </form>
+                <form id="sound-form" action="{{ url_for('quiz_page', quiz_count=quiz_count , btn='sound', id=item_selected.id, correct_count=correct_count, wrong_count=wrong_count, wrong_items=wrong_items)}}" method="post">
+                    <button class="icon-button" id="sound-btn"><i class="fa-solid fa-volume-high fa-2xl"></i></button>
+                </form>
+            </div>
           </div>
         </div>
+
         <div id="front" class="container-fluid cardFront">
           <div class="container-fluid front-content">
             <h2 class="quiz-title">{{item_selected.word_phrase}}</h2>
@@ -35,9 +40,11 @@
             </div>
           </div>
         </div>
+
       </div>
+
       <br>
-      <h3>Score: {{ correct_count }} / {{ quiz_count }}</h3>
+      <h3>Score: {{ correct_count }} / {{ quiz_count-1 }}</h3>
       <br>
       <a data-toggle="collapse" href="#review" role="button" class="btn btn-outline-secondary btn-sm">Check Review</a>
       <div id="review" class="collapse">
