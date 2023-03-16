@@ -189,6 +189,9 @@ hr {
   width: 70%;
 }
 
+.container {
+    height: 450px;
+}
 /* show_item.html */
 .item-record {
   width: 70%;

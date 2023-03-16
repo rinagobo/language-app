@@ -202,15 +202,22 @@ def quiz_page():
                 # UPDATE WRONG COUNT
                 wrong_count += 1
                 # ADD THE ITEM ID THAT AN USER GOT WRONG TO "wrong_items"
-                wrong_items.append(item_id)
+                if item_id not in wrong_items:
+                    wrong_items.append(item_id)
+
+                return render_template("quiz.html", item_selected=item_selected, quiz_count=quiz_count,correct_count=correct_count, wrong_count=wrong_count, wrong_items=wrong_items)
             # YES BUTTON
             else:
                 # UPDATE CORRECT COUNT
                 correct_count += 1
+                # UPDATE "quiz_count"
+                updated_count = int(request.args.get('quiz_count')) + 1
+                # CHOOSE NEXT QUESTION RANDOMLY
+                all_items = Vocabulary.query.all()
+                db.session.commit()
+                updated_item = all_items[randint(0, len(all_items) - 1)]
 
-            print(f"correct: {correct_count}, wrong: {wrong_count} item to review: {wrong_items}")
-
-            return render_template("quiz.html", item_selected=item_selected, quiz_count=quiz_count, correct_count=correct_count, wrong_count=wrong_count, wrong_items=wrong_items)
+                return render_template("quiz.html", item_selected=updated_item, quiz_count=updated_count, correct_count=correct_count, wrong_count=wrong_count, wrong_items=wrong_items)
 
     return render_template("quiz.html", item_selected=item_selected, quiz_count=quiz_count, correct_count=correct_count, wrong_count=wrong_count, wrong_items=wrong_items)
 
