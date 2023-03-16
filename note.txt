@@ -1,1 +1,3 @@
-Keep commit pace as in adjustment branch.(This is second commit)
+Keep commit pace as in adjustment branch.(This is the second commit)
+
+Keep commit pace as in adjustment branch.(This is the third commit)
