@@ -1,11 +1,16 @@
 {% include "header.html" %}
 
+
+
     <div class="container-fluid quiz-section">
+
       <h1>Question {{ quiz_count }}</h1>
       <br>
       <button type="button" id="flip-btn">
         Flip Card   <i class="fa-solid fa-arrow-right-arrow-left"></i>
       </button>
+
+      {# FLIP CARD AREA #}
       <div class="card quiz-card">
         <div id="back" class="cardBack">
           <div class="container-fluid back-content">
@@ -17,8 +22,6 @@
                 <button class="icon-button" id="sound-btn"><i class="fa-solid fa-volume-high fa-2xl"></i></button>
                 <button class="icon-button" type="submit" id="next-btn"><i class="fa-sharp fa-solid fa-forward fa-2xl"></i></button>
             </form>
-<!--            <a href="{{ url_for('home') }}" class="icon-button" id="sound-btn" role="button"><i class="fa-solid fa-volume-high fa-2xl"></i></a>-->
-<!--            <a href="{{ url_for('quiz_page') }}" class="icon-button" id="next-btn" role="button"><i class="fa-sharp fa-solid fa-forward fa-2xl"></i></a>-->
           </div>
         </div>
         <div id="front" class="container-fluid cardFront">
@@ -36,6 +39,8 @@
           </div>
         </div>
       </div>
+      {# END OF FLIP CARD AREA #}
+
       <br>
       <h3>Score: {{ correct_count }} / {{ quiz_count }}</h3>
       <br>
@@ -51,15 +56,8 @@
 
     </div>
 
-    <footer>
-     <section class="contact-link">
-       <a href="https://github.com/rinagobo?tab=repositories"><i class="github-icon fa-brands fa-github"></i></a>
-       <p class="copyright">Copyright ©2023 RinaNeman</p>
-     </section>
-   </footer>
-
    <script>
-     <!-- FOR THE ACTION OF FLIP BUTTON -->
+     {# FOR THE ACTION OF FLIP BUTTON #}
      const front = document.getElementById('front')
      const back = document.getElementById('back')
      const flip_btn = document.getElementById('flip-btn')
@@ -71,6 +69,7 @@
 
      flip_btn.addEventListener('click', handleFlip)
    </script>
- </body>
 
-</html>
+
+
+{% include "footer.html" %}
