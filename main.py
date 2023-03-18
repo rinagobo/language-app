@@ -3,8 +3,8 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from random import *
 
-SECRET_KEY = ""
-DATABASE_URI = ""
+SECRET_KEY = ''
+DATABASE_URI = ''
 
 ### CREATE FLASK SERVER ###
 app = Flask(__name__)
@@ -103,13 +103,11 @@ def quiz_page():
 
     # VARIABLES THAT ARE TRACKED
     quiz_count = 1
-    wrong_count = 0
     correct_count = 0
     wrong_items = []
 
     if request.method == 'POST':
         correct_count = request.args.get('correct_count', type=int)
-        wrong_count = request.args.get('wrong_count', type=int)
         wrong_items = request.args.getlist('wrong_items')
         list(map(int, wrong_items))
 
@@ -121,7 +119,7 @@ def quiz_page():
             all_items = Vocabulary.query.all()
             db.session.commit()
             item_selected = all_items[randint(0, len(all_items) - 1)]
-            return render_template("quiz.html", item_selected=item_selected, quiz_count=updated_count, correct_count=correct_count , wrong_count=wrong_count, wrong_items=wrong_items)
+            return render_template("quiz.html", item_selected=item_selected, quiz_count=updated_count, correct_count=correct_count , wrong_items=wrong_items)
         # WHEN AN USER CRICKS THE YES OR NO BUTTON in "quiz.html"
         else:
             quiz_count = int(request.args.get('quiz_count'))
@@ -129,20 +127,25 @@ def quiz_page():
             item_selected = Vocabulary.query.get(item_id)
             # NO BUTTON
             if request.args.get('btn') == 'no':
-                # UPDATE WRONG COUNT
-                wrong_count += 1
-                # ADD THE ITEM ID THAT AN USER GOT WRONG TO "wrong_items"
-                wrong_items.append(item_id)
+                # ADD THE NEW WRONG ITEM IF IT WAS NOT ADDED BEFORE
+                if item_id not in wrong_items:
+                    wrong_items.append(item_id)
+
+                    return render_template("quiz.html", item_selected=item_selected, quiz_count=quiz_count,correct_count=correct_count, wrong_items=wrong_items)
             # YES BUTTON
             else:
                 # UPDATE CORRECT COUNT
                 correct_count += 1
+                # UPDATE "quiz_count"
+                updated_count = int(request.args.get('quiz_count')) + 1
+                # CHOOSE NEXT QUESTION RANDOMLY
+                all_items = Vocabulary.query.all()
+                db.session.commit()
+                updated_item = all_items[randint(0, len(all_items) - 1)]
 
-            print(f"correct: {correct_count}, wrong: {wrong_count} item to review: {wrong_items}")
+                return render_template("quiz.html", item_selected=updated_item, quiz_count=updated_count, correct_count=correct_count, wrong_items=wrong_items)
 
-            return render_template("quiz.html", item_selected=item_selected, quiz_count=quiz_count, correct_count=correct_count, wrong_count=wrong_count, wrong_items=wrong_items)
-
-    return render_template("quiz.html", item_selected=item_selected, quiz_count=quiz_count, correct_count=correct_count, wrong_count=wrong_count, wrong_items=wrong_items)
+    return render_template("quiz.html", item_selected=item_selected, quiz_count=quiz_count, correct_count=correct_count, wrong_items=wrong_items)
 
 @app.route("/archive")
 def archive():
